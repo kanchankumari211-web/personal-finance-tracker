@@ -1,0 +1,13 @@
+{
+  "name": "personal-finance-tracker-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal Finance Tracker - Full Stack MERN App",
+  "scripts": {
+    "server": "npm --prefix server run dev",
+    "client": "npm --prefix client run dev",
+    "dev": "npm --prefix server run dev",
+    "dev:all": "npm --prefix server run dev & npm --prefix client run dev",
+    "build:client": "npm --prefix client run build"
+  }
+}
