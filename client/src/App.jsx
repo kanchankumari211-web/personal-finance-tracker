@@ -283,18 +283,18 @@ function App() {
   const effectiveCurrency = currency || 'INR';
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors flex flex-col justify-between">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors flex flex-col justify-between overflow-x-hidden w-full">
       <Toaster position="top-right" />
 
       {/* Navigation */}
       <Navbar onOpenAddModal={() => setIsAddModalOpen(true)} />
 
       {/* Main Dashboard Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1 space-y-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full flex-1 space-y-6 sm:space-y-8">
         
         {/* Banner if in local demo / disconnected state */}
         {isDemoMode && (
-          <div className="p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-amber-800 dark:text-amber-300 text-xs flex items-center justify-between card-3d">
+          <div className="p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-amber-800 dark:text-amber-300 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 card-3d">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-amber-500 flex-shrink-0" />
               <span>
@@ -303,7 +303,7 @@ function App() {
             </div>
             <button
               onClick={fetchDashboardData}
-              className="ml-3 px-2.5 py-1 text-[11px] font-semibold bg-amber-200 dark:bg-amber-900/60 hover:bg-amber-300 rounded-lg transition-colors flex items-center gap-1"
+              className="px-2.5 py-1 text-[11px] font-semibold bg-amber-200 dark:bg-amber-900/60 hover:bg-amber-300 rounded-lg transition-colors flex items-center gap-1 self-end sm:self-auto flex-shrink-0"
             >
               <RefreshCw className="w-3 h-3" />
               Retry API
@@ -311,35 +311,35 @@ function App() {
           </div>
         )}
 
-        {/* Dashboard Welcome Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        {/* Dashboard Welcome Header (Stacked on mobile, row on desktop) */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 w-full">
           <div>
-            <div className="flex flex-wrap items-center gap-2.5">
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                Financial Overview
-              </h1>
+            <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              Financial Overview
+            </h1>
+            <div className="flex flex-wrap items-center gap-2 mt-1.5 sm:mt-2">
               <span className="inline-flex items-center px-2.5 py-1 rounded-xl text-xs font-bold bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 border border-indigo-200/80 dark:border-indigo-800/80 shadow-sm">
                 Active: {effectiveCurrency}
               </span>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <Calendar className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                <span>
+                  {new Date().toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </span>
+              </p>
             </div>
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-slate-400" />
-              <span>
-                {new Date().toLocaleDateString('en-US', {
-                  weekday: 'long',
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </span>
-            </p>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center flex-wrap sm:flex-nowrap gap-2.5 sm:gap-3 w-full sm:w-auto">
             <button
               onClick={fetchDashboardData}
               disabled={isLoadingData}
-              className="p-2.5 rounded-xl glass-panel text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 shadow-sm transition-all"
+              className="p-2.5 rounded-xl glass-panel text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 shadow-sm transition-all flex items-center justify-center flex-shrink-0"
               title="Refresh dashboard data"
               aria-label="Refresh Data"
             >
@@ -349,7 +349,7 @@ function App() {
             <button
               id="top-add-transaction-btn"
               onClick={() => setIsAddModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 btn-3d"
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-bold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 btn-3d w-full sm:w-auto"
             >
               <Plus className="w-4 h-4" />
               <span>Add Transaction</span>
@@ -358,22 +358,22 @@ function App() {
         </div>
 
         {/* 1. Stat Summary Cards (Day 10) with 3D elevation */}
-        <section aria-label="Financial Summary Cards">
+        <section aria-label="Financial Summary Cards" className="w-full">
           <StatCards summary={summary} currency={effectiveCurrency} />
         </section>
 
         {/* 2. Visual Charts Row (Day 8-9) with 3D elevation */}
-        <section aria-label="Visual Analytics Charts" className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="h-[390px]">
+        <section aria-label="Visual Analytics Charts" className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
+          <div className="w-full min-h-[350px] sm:h-[390px]">
             <CategoryPieChart data={categoryBreakdown} currency={effectiveCurrency} />
           </div>
-          <div className="h-[390px]">
+          <div className="w-full min-h-[350px] sm:h-[390px]">
             <MonthlyBarChart data={monthlyTrends} currency={effectiveCurrency} />
           </div>
         </section>
 
         {/* 3. Transaction Table with Filters & CSV Export */}
-        <section aria-label="Transaction Records">
+        <section aria-label="Transaction Records" className="w-full">
           <TransactionTable
             transactions={transactions}
             categories={categories}

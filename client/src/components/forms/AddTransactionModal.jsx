@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Plus, Calendar, Tag, FileText, Coins } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { SUPPORTED_CURRENCIES, getCurrencySymbol, DEFAULT_CURRENCY } from '../../utils/formatCurrency';
@@ -63,13 +64,22 @@ const AddTransactionModal = ({
     }
   }, [isOpen]);
 
-  // Close on Escape key
+  // Close on Escape key & lock body scroll while modal is active
   useEffect(() => {
+    if (!isOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && isOpen) onClose();
+      if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
@@ -131,16 +141,22 @@ const AddTransactionModal = ({
   const availableCategories =
     type === 'income' ? DEFAULT_INCOME_CATEGORIES : DEFAULT_EXPENSE_CATEGORIES;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/65 backdrop-blur-md animate-fadeIn">
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-md animate-fadeIn"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="add-transaction-modal-title"
+    >
       <div
-        className="relative w-full max-w-md rounded-3xl glass-panel bg-white/95 dark:bg-slate-900/95 shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden card-3d"
+        className="relative w-[92%] max-w-md max-h-[85vh] flex flex-col rounded-2xl sm:rounded-3xl glass-panel bg-white/95 dark:bg-slate-900/95 shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden card-3d"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800">
+        <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex-shrink-0">
           <div>
-            <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">
+            <h3 id="add-transaction-modal-title" className="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-100">
               Add Transaction
             </h3>
             <p className="text-[11px] text-slate-500 dark:text-slate-400">
@@ -149,14 +165,16 @@ const AddTransactionModal = ({
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            title="Close modal"
+            aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Modal Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3.5 sm:space-y-4">
           
           {/* Income vs Expense Pill Toggle */}
           <div className="flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl">
@@ -326,7 +344,7 @@ const AddTransactionModal = ({
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
+          <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-800 flex-shrink-0">
             <button
               type="button"
               onClick={onClose}
@@ -349,7 +367,8 @@ const AddTransactionModal = ({
 
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

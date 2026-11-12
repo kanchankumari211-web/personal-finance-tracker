@@ -35,7 +35,7 @@ const CategoryPieChart = ({ data = [], currency = 'USD' }) => {
   const hasData = Array.isArray(data) && data.length > 0 && data.some((d) => d.value > 0);
 
   return (
-    <div className="p-6 rounded-3xl glass-panel card-3d flex flex-col h-full relative overflow-hidden">
+    <div className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl glass-panel card-3d flex flex-col h-full relative overflow-hidden w-full">
       {/* 3D ambient glow */}
       <div className="absolute top-0 right-0 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 

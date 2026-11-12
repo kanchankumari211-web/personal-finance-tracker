@@ -38,18 +38,18 @@ const CurrencyModal = ({ isOpen, onClose, selectedCurrency = 'INR', onSelectCurr
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-md animate-fadeIn"
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-md animate-fadeIn"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-labelledby="currency-modal-title"
     >
       <div
-        className="w-[92%] max-w-md max-h-[80vh] flex flex-col rounded-3xl glass-panel bg-white/95 dark:bg-slate-900/95 shadow-2xl border border-slate-200 dark:border-slate-800 card-3d overflow-hidden"
+        className="w-[92%] max-w-md max-h-[85vh] flex flex-col rounded-2xl sm:rounded-3xl glass-panel bg-white/95 dark:bg-slate-900/95 shadow-2xl border border-slate-200 dark:border-slate-800 card-3d overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header - Fixed and always visible */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex-shrink-0">
+        <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex-shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold">
               <Coins className="w-4 h-4" />
