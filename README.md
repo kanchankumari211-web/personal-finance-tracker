@@ -13,10 +13,10 @@ A modern, full-stack personal finance web application built to help users record
 
 ## 🌐 Live Demo
 
-- **Frontend Application:** [https://personal-finance-tracker-nine-black.vercel.app/](https://personal-finance-tracker-nine-black.vercel.app/)
+- **Frontend:** [https://personal-finance-tracker-nine-black.vercel.app/](https://personal-finance-tracker-nine-black.vercel.app/)
 - **Backend API (Health Check):** [https://personal-finance-tracker-1btn.onrender.com/api/health](https://personal-finance-tracker-1btn.onrender.com/api/health)
 
-> ⏳ **Note on Cold Starts:** The backend API is hosted on Render's free tier. If the service has been inactive, the first request may take **30–60 seconds** to wake up before responding. Once active, requests respond instantly.
+> ⏳ **Note:** Backend runs on Render's free plan, so the first request after inactivity may take 30-60 seconds to wake up. Subsequent requests respond instantly.
 
 ---
 
